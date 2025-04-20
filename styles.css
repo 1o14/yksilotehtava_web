@@ -1,0 +1,1358 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #181b25;
+  --card: #232734;
+  --accent: #4a90e2;
+  --accent-hover: #357ab8;
+  --text: #e8ecf4;
+  --text-muted: #9da3b6;
+  --success: #7dd87d;
+  --error: #f87e7e;
+  --card-bg: var(--card);
+  --text-color: var(--text);
+  --input-bg: #2b2f3f;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: #1d2130;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+
+.logo {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.main-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.main-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.main-nav a:hover {
+  color: var(--accent);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-buttons button {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.auth-buttons button:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+main {
+  padding: 40px 24px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px 24px;
+  width: 90vw;
+  max-width: unset; 
+  min-height: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: 0.3s;
+  margin: 0 auto; 
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.card h2 {
+  color: var(--accent);
+  font-size: 1.3em;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1em;
+  color: var(--text);
+}
+
+.card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card ul li {
+  background: #2b2f3f;
+  border-radius: 10px;
+  padding: 14px 16px;
+  transition: 0.2s;
+}
+
+.card ul li:hover {
+  background: #313545;
+}
+
+.restaurant-name {
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.favorite {
+  cursor: pointer;
+  color: gold;
+  margin-left: 10px;
+}
+
+.favorite.inactive {
+  color: gray;
+}
+
+.info {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.85em;
+}
+
+.info a:hover {
+  text-decoration: underline;
+}
+
+.status {
+  font-weight: 500;
+  font-size: 0.85em;
+}
+
+.status.open {
+  color: var(--success);
+}
+
+.status.closed {
+  color: var(--error);
+}
+
+
+.button-row button {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  font-size: 0.9em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.button-row button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+#preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* --- Dropdown-ehdotuslista --- */
+.dropdown-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* tämä kontrolloi leveysrajaa */
+}
+
+.dropdown-list {
+  background: #2b2f3f;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; /* matchaa wrapperin */
+  min-width: 300px; /* pakottaa minimi */
+  box-sizing: border-box;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.dropdown-item {
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* --- Lisätietojen ja ruokalistan luettavuus --- */
+
+#restaurantDetails p {
+  margin: 0.4rem 0;
+  line-height: 1.4;
+}
+
+#restaurantDetails p strong {
+  color: var(--text);
+}
+
+/* --- Popup-tiedot --- */
+
+.popup-info {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2b2f3f;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  max-width: 90%;
+  width: 400px;
+  color: var(--text);
+  animation: fadeIn 0.3s ease-in-out;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.popup-info h4 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 1.2em;
+}
+
+.popup-info p {
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin: 8px 0;
+}
+
+.popup-info .close-popup {
+  margin-top: 12px;
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  float: right;
+}
+
+.popup-info .close-popup:hover {
+  background: var(--accent-hover);
+}
+
+/* --- Responsiivinen full-hero --- */
+.full-hero {
+  position: relative;
+  width: 100%;
+  height: 50vh; /* Skaalaa näkymän mukaan */
+  min-height: 300px;
+  max-height: 500px;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-in-out;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgba(20, 20, 30, 0.4), rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.hero-text {
+  animation: fadeInUp 1s ease-in-out;
+  max-width: 960px;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-top: 1rem;
+  opacity: 0.95;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive mobiiliin */
+@media (max-width: 768px) {
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .full-hero {
+    height: 40vh;
+    min-height: 240px;
+  }
+}
+
+/* --- Input ja select --- */
+
+select,
+input[type="text"] {
+  background-color: #2b2f3f;
+  color: var(--text);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.9em;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  transition: border 0.2s ease;
+}
+
+select:focus,
+input[type="text"]:focus {
+  border-color: var(--accent-hover);
+}
+
+/* --- Näkymien hallinta --- */
+.view-section {
+  display: none;
+}
+.view-section.active {
+  display: block;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* --- Vaalea teema --- */
+body.light-theme {
+  --bg: #f9f9f9;
+  --card: #ffffff;
+  --accent: #4a90e2;
+  --accent-hover: #2f6dbc;
+  --text: #222222;
+  --text-muted: #5f5f5f;
+  --success: #3cb371;
+  --error: #ff5c5c;
+}
+
+body.light-theme header {
+  background: #eeeeee;
+}
+
+body.light-theme .popup-info {
+  background: #ffffff;
+  color: var(--text);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+
+body.light-theme .auth-buttons button {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+body.light-theme .auth-buttons button:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+body.light-theme .main-nav a {
+  color: var(--text-muted);
+}
+
+body.light-theme .main-nav a:hover {
+  color: var(--accent);
+}
+
+body.light-theme select,
+body.light-theme input[type="text"] {
+  background: #f0f0f0;
+  color: var(--text);
+  border: 1px solid var(--accent);
+}
+
+body.light-theme .card ul li {
+  background: #f5f5f5;
+}
+
+body.light-theme .card ul li:hover {
+  background: #e9e9e9;
+}
+
+/* --- Teemakytkin --- */
+#themeToggle {
+  background: white;
+  color: #222;
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.85em;
+  margin-left: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#themeToggle:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* --- Fade in animaatio --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.profile-sidebar {
+  flex: 1;
+  min-width: 250px;
+  text-align: center;
+}
+
+.avatar-wrapper img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #4CAF50;
+  margin-bottom: 10px;
+}
+
+.avatar-wrapper input[type="file"] {
+  display: block;
+  margin: 10px auto;
+}
+
+.profile-form {
+  flex: 2;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-form input {
+  padding: 0.6rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}
+
+.cancel-btn {
+  background: #ccc;
+  color: #333;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.required {
+  color: red;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.login-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.login-card.card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.login-wrapper {
+  background: var(--card);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+body.light-theme .login-wrapper {
+  background: white;
+  color: #222;
+}
+
+
+.login-icon {
+  font-size: 3rem;
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.login-wrapper h2 {
+  margin-bottom: 0.5rem;
+}
+
+.subtext {
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--card);
+  color: var(--text);
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+  border-color: var(--accent-hover);
+  outline: none;
+}
+
+body.light-theme .login-form input[type="text"],
+body.light-theme .login-form input[type="password"] {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #222;
+}
+
+
+.login-form input::placeholder {
+  color: #888;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 0.9rem;
+  gap: 0.4rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.error-msg {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: red;
+}
+
+.cancel-btn {
+  background: #555;
+  color: #eee;
+}
+
+nav.main-nav a[style*="pointer-events: none"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Kirjautumisviesti tyyli --- */
+#authMessage {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--success);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 1rem;
+  transition: all 0.4s ease;
+  animation: fadeIn 0.3s ease-in-out;
+  text-align: center;
+}
+
+body.light-theme #authMessage {
+  background: rgba(60, 179, 113, 0.15);
+  color: var(--success);
+}
+
+/* Profiilikortti */
+.profile-card {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  transition: 0.3s ease;
+}
+
+/* Profiilin otsikko */
+.profile-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* Profiilin sisältö asettelu */
+.profile-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vasemman puolen sisältö (kuva, nimi, nappi) */
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Kuva ympyrässä */
+.image-upload {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #4CAF50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.image-upload:hover {
+  transform: scale(1.05);
+}
+
+.image-upload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 50%;
+  text-align: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.image-upload.editing .image-overlay {
+  display: flex;
+  opacity: 1;
+}
+
+
+.profile-left h3 {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.profile-left p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+#editProfileBtn {
+  margin-top: 10px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#editProfileBtn:hover {
+  background: var(--accent-hover);
+}
+
+/* Oikea puoli (lomake) */
+.profile-right {
+  flex: 2;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-right label {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.profile-right input {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background-color: var(--card);
+  color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+
+body.light-theme .profile-right input {
+  background-color: #fff;
+  color: #222;
+  border-color: #bbb;
+}
+
+#editControls {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  background: #3683f0; 
+  color: white;
+}
+
+.cancel-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  background: #777;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-right {
+    width: 100%;
+  }
+}
+
+
+.success-msg {
+  color: var(--success);
+  margin-top: 1rem;
+}
+
+.error-msg {
+  color: var(--error);
+  margin-top: 1rem;
+}
+
+.hero-image {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* --- MENU TOGGLE --- */
+.menu-toggle {
+  display: none;
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- MENU DISPLAY / RUOKALISTA --- */
+#menuDisplay {
+  line-height: 1.5;
+  font-size: 0.95em;
+  padding-top: 6px;
+}
+
+#menuDisplay h4 {
+  margin-top: 1.2rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.05em;
+  color: var(--accent);
+  border-bottom: 1px solid #3a3f51;
+  padding-bottom: 2px;
+}
+
+#menuDisplay div {
+  margin-left: 0.5rem;
+  margin-bottom: 4px;
+}
+
+
+/* --- RESPONSIVE + BURGER TOIMIVAKSI --- */
+@media (max-width: 768px) {
+  header {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    background: var(--card);
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0 0 12px 12px;
+    gap: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+
+  .auth-buttons {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 10px;
+  }
+
+  .hero-image {
+    max-height: 240px;
+  }
+
+  .card {
+    padding: 16px;
+    margin: 10px;
+  }
+
+  .card h2,
+  .hero h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .card p,
+  .hero p {
+    font-size: 1rem;
+    text-align: center;
+  }
+}
+
+/* --- BUTTONS YLEISESTI --- */
+.auth-buttons button,
+.button-row button {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Kartan osion tyylit */
+#mapSection {
+  display: none; /* Piilotetaan kartta oletuksena */
+  justify-content: center; /* Kartan keskittäminen */
+  align-items: center; /* Keskittää kartan pystysuunnassa */
+  padding: 0;
+  width: 100%; /* Varmistaa, että kartta vie koko leveysalueen */
+  height: 100%; /* Varmistaa, että kartta vie koko korkeuden */
+}
+
+#mapSection .card {
+  width: 100%; /* Kartan kortti vie koko alueen */
+  max-width: 100%; /* Maksimileveys 100% */
+  margin: 0 auto; /* Keskittää */
+  padding: 0;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2); /* Varjostus */
+  border-radius: 12px;
+}
+
+#map {
+  width: 100%; /* Kartta vie koko leveysalueen */
+  height: 600px; /* Korkeus, voidaan säätää tarvittaessa */
+  border-radius: 12px; /* Reunojen pyöristys */
+}
+
+/* Mobiililaitteet - pienempi kartan korkeus */
+@media (max-width: 768px) {
+  #map {
+    height: 400px; /* Mobiilissa pienempi korkeus */
+  }
+}
+
+/* Suuremmille näytöille kartan suurempi korkeus */
+@media (min-width: 1200px) {
+  #map {
+    height: 700px; /* Isommilla näytöillä suurempi korkeus */
+  }
+}
+/* 🔷 Arvostelulaatikko (popup tai sivu) */
+#reviewSection {
+  margin: 2rem auto;
+  max-width: 600px;
+  padding: 1.8rem;
+  border-radius: 14px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+}
+
+/* Arvostelukortit esim. vanhat kommentit */
+.review-card,
+.review-block {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  padding: 1rem 1.2rem;
+  border-left: 4px solid #005aa7; /* Sodexo sininen */
+  border-radius: 10px;
+  margin: 1rem 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  position: relative;
+  word-break: break-word;
+}
+
+/* Poista-nappi */
+.review-block .delete-review-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: transparent;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.review-block .delete-review-btn:hover {
+  color: crimson;
+}
+
+/* Lomake: textarea, arvosana, nappi */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  word-break: break-word;
+}
+
+.review-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.review-form input[type="number"] {
+  width: 120px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Lähetä-nappi */
+.review-form button {
+  width: fit-content;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  background: #005aa7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.review-form button:hover {
+  background: #004080;
+}
+
+#reviewsList {
+  max-height: 250px;       /* tai esim. 300px */
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+#userReviewsList p {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-muted);
+  padding: 2rem 0;
+}
+
+.view-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.wide-card {
+  width: 90vw;
+  max-width: unset;
+  margin: 0 auto;
+}
+
+
+#welcomeUser,
+.user-greeting {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px 18px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 1.4rem;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+  animation: fadeIn 0.6s ease-in-out;
+  backdrop-filter: blur(4px);
+}
+
+.menu-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.menu-btn.active {
+  background: var(--accent-hover);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.menu-btn i {
+  font-size: 1.1em;
+}
+
+/* Ruokalistan sisältö */
+#menuDisplay {
+  background: rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+.menu-day {
+  margin-bottom: 25px;
+}
+
+.menu-day h4 {
+  color: var(--accent);
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--accent);
+  font-size: 1.1rem;
+}
+
+.menu-item {
+  background: var(--card);
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: transform 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateX(5px);
+}
+
+.menu-item strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.menu-item .price {
+  color: var(--accent);
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.menu-item .diets {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+/* Vaalea teema */
+body.light-theme .menu-item {
+  background: #f5f5f5;
+}
+
+body.light-theme .menu-item:hover {
+  background: #e9e9e9;
+}
+
+/* Ruokalistan tyylit */
+.search-container {
+  margin-bottom: 1.5rem;
+}
+
+.menu-instruction {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0.5rem 0 1.5rem;
+  text-align: center;
+}
+
+.menu-placeholder {
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.menu-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menu-btn[disabled]:hover {
+  transform: none !important;
+  background: var(--accent) !important;
+}
+
+.save-btn, .cancel-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #3683f0;  
+  color: white;
+}
+
+.cancel-btn {
+  background: #777;
+  color: #fff;
+}
+
+.card.empty {
+  min-height: 300px;
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.button-row {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.menu-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}

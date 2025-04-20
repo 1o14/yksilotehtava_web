@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opiskelijaraflat</title>
+
+  <!-- Tyylit ja ikonit -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Leaflet-kartta -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="mainHeader" style="display: none;">
+    <div class="logo">Opiskelijaravintolat</div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="#" id="navHome">Etusivu</a>
+      <a href="#" id="navRestaurants">Ravintolat</a>
+      <a href="#" id="navMenu">Ruokalista</a>
+      <a href="#" id="navFavorites">Suosikit</a>
+      <a href="#" id="navMap">Kartta</a>
+      <a href="#" id="navMyReviews">Arvostelut</a>
+    </nav>
+    <div class="auth-buttons">
+      <button id="loginButton" type="button">Kirjaudu</button>
+      <button id="profileButton" type="button">Profiili</button>
+      <button id="logoutButton" type="button" style="display: none;">Kirjaudu ulos</button>
+      <button id="themeToggle" type="button">🌓 Vaihda teema</button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="dashboard">
+
+      <!-- Kirjautuminen -->
+      <section class="auth-container" id="authSection">
+        <div class="login-wrapper">
+          <div class="login-icon">
+            <i class="fas fa-user-lock" style="font-size: 2rem; color: #00e676;"></i>
+          </div>
+          <h2>Tervetuloa!</h2>
+          <p class="subtext">Kirjaudu sisään tai luo uusi käyttäjä</p>
+
+          <div class="login-form">
+            <input type="text" id="authUsername" placeholder="👤 Käyttäjänimi *" required />
+            <input type="password" id="authPassword" placeholder="🔒 Salasana *" required />
+
+            <label style="display: block; text-align: left; margin: 0.5rem 0;">
+              <input type="checkbox" id="rememberMe" />
+              Muista minut
+            </label>
+
+            <div class="button-row">
+              <button id="doLogin" class="save-btn">Kirjaudu</button>
+              <button id="doRegister" class="cancel-btn">Rekisteröidy</button>
+            </div>
+
+            <p id="authMessage" class="error-msg"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Etusivu -->
+      <section class="view-section" id="homeSection" style="display: none;">
+        <div class="hero full-hero">
+          <img src="image.png" alt="Ruoka-annos" class="hero-bg" />
+          <div class="hero-overlay">
+            <div class="hero-text">
+              <p id="welcomeUser" class="user-greeting"></p>
+              <h1>Tervetuloa Opiskelijaravintolasovellukseen 🍴</h1>
+              <p>Selaa päivän ruokia tai etsi lähin opiskelijaravintola.</p>
+            </div>
+          </div>
+        </div>
+      </section>      
+
+      <!-- Ravintolat -->
+<section class="view-section" id="restaurantSection" style="display: none;">
+  <div class="card wide-card">
+    <h2>Ravintolat</h2>
+    <input type="text" id="searchInput" placeholder="Etsi ravintolaa tai kaupunkia..." />
+    <ul id="restaurantList">
+      <li>Ladataan ravintoloita...</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Ruokalista -->
+<section class="view-section" id="menuSection" style="display: none;">
+  <div class="card wide-card">
+    <h2>🍽️ Ruokalista</h2>
+
+    <!-- Ravintolahaku dropdown -->
+    <div class="search-container">
+      <label for="restaurantSearchInput">Etsi ravintola:</label>
+      <input type="text" id="restaurantSearchInput" placeholder="Kirjoita ravintolan nimi (esim. Metropolia Myyrmäki)" />
+      <div id="restaurantDropdown" class="dropdown-menu"></div>
+    </div>
+
+    <!-- Ohjeteksti -->
+    <p class="menu-instruction">Valitse ravintola yllä olevasta hakukentästä</p>
+
+    <!-- Ruokalistan sisältö -->
+    <div id="menuDisplay" class="menu-display">
+      <div class="menu-placeholder">
+        Ravintolan ruokalista tulee näkyviin tähän
+      </div>
+    </div>
+
+    <!-- Napit päivän ja viikon listalle -->
+    <div class="menu-controls">
+      <button id="dailyBtn" class="menu-btn" disabled>
+        <i>📅</i> Päivän ruokalista
+      </button>
+      <button id="weeklyBtn" class="menu-btn" disabled>
+        <i>🗓️</i> Viikon ruokalista
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Arvostelut (näkyy ravintolan tiedoissa popup/alaosana) -->
+<div id="reviewSection" style="display: none;">
+  <div class="card review-card">
+    <h3>📝 Arvostele tämä ravintola</h3>
+    <div class="review-form">
+      <textarea id="reviewText" placeholder="Kirjoita arvostelu tähän..."></textarea>
+      <input type="number" id="reviewRating" min="1" max="5" placeholder="Arvosana 1-5" />
+      <button id="submitReviewBtn">Lähetä arvostelu</button>
+    </div>
+    <div id="reviewsList">
+      <p>Ei vielä arvosteluja.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Arvosteluhistoria -->
+<section class="view-section" id="reviewsHistorySection" style="display: none;">
+  <div class="card wide-card">
+    <h2>📖 Omat arvostelut</h2>
+    <div id="userReviewsList">
+      <p>Ei vielä arvosteluja.</p>
+    </div>
+  </div>
+</section>
+
+
+      <!-- Suosikit -->
+<section class="view-section" id="favoritesSection" style="display: none;">
+  <div class="card wide-card">
+    <h2>⭐ Omat suosikit</h2>
+    <ul id="favoritesList">
+      <li>Ei vielä suosikkeja</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- Kartta -->
+<section class="view-section" id="mapSection" style="display: none;">
+  <div class="card wide-card">
+    <h2>📍 Ravintolat kartalla</h2>
+    <div id="map" style="height: 500px; width: 100%; border-radius: 12px;"></div>
+  </div>
+</section>
+
+      <!-- Profiili -->
+<section class="view-section" id="profileSection" style="display: none;">
+  <div class="card wide-card" style="padding: 2rem;">
+    <h2 class="profile-title" style="text-align: center;">👤 Profiilisivu</h2>
+
+    <div class="profile-content">
+      <div class="profile-left">
+        <!-- Label sisältää inputin sisällä jotta klikattavuus toimii -->
+        <label class="image-upload group">
+          <input type="file" id="profilePic" accept="image/*" style="display: none;" />
+          <img id="preview" src="https://via.placeholder.com/120?text=Profiili" alt="Profiilikuva" />
+          <div class="image-overlay">Vaihda kuva</div>
+        </label>
+
+        <h3 id="fullName">Etunimi Sukunimi</h3>
+        <p id="usernameLabel">testikäyttäjä</p>
+
+        <div id="profileActions">
+          <button id="editProfileBtn">Muokkaa</button>
+        </div>
+
+        <p id="profileError" class="error-msg"></p>
+      </div>
+
+      <div class="profile-right">
+        <label>Etunimi *</label>
+        <input type="text" id="nameInput" disabled required />
+
+        <label>Sukunimi *</label>
+        <input type="text" id="lastNameInput" disabled required />
+
+        <label>Sähköposti *</label>
+        <input type="email" id="emailInput" disabled readonly class="profile-input" />
+
+        <label>Syntymäpäivä</label>
+        <input type="date" id="dobInput" disabled />
+
+        <div id="editControls" style="display: none;">
+          <button id="saveProfile" class="save-btn">Tallenna</button>
+          <button id="cancelProfile" class="cancel-btn">Peruuta</button>
+        </div>
+
+        <p id="profileMessage" class="success-msg"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </div>
+  </main>
+
+  <!-- Leaflet karttakirjasto -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
