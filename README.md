@@ -23,4 +23,12 @@ Tässä vaiheessa tiedostojen uudelleenrakentaminen ei ollut enää järkevää,
 - Ei frameworkeja tai kirjastoja
 
 ## 🔗 REST API
-Sovellus käyttää Metropolian APIa.
+Sovellus käyttää Metropolian tarjoamaa REST APIa seuraaviin toimintoihin:
+
+- Käyttäjän kirjautuminen (`/auth/login`)
+- Ravintolalistauksen ja hakutoiminnon toteutus (`/restaurants`)
+- Ravintolan tarkemmat tiedot (`/restaurants/:id`)
+- Päivän ja viikon ruokalistat (`/restaurants/daily/:id/fi` ja `.../weekly/:id/fi`)
+- Käyttö ei vaadi kirjautumista, paitsi sisäänkirjautumisessa.
+
+Token tallennetaan localStorageen tulevaa käyttöä varten, mutta tällä hetkellä se ei ole käytössä muissa pyynnöissä.
